@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace KanbanBoardApplication.UserControls
+namespace KanbanBoardApplication.Views
 {
     class DropAdorner : Adorner
     {

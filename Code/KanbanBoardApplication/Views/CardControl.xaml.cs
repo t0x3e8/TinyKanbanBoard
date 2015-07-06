@@ -16,16 +16,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace KanbanBoardApplication.UsersControls
+namespace KanbanBoardApplication.Views
 {
     /// <summary>
     /// Interaction logic for Card.xaml
     /// </summary>
-    public partial class Card : UserControl
+    public partial class CardControl : UserControl
     {
         //private DropAdorner adorner;
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(Card));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(CardControl));
 
         public string Text
         {
@@ -35,7 +35,7 @@ namespace KanbanBoardApplication.UsersControls
 
         //public bool IsAnotherCardHoveredOver { get; private set; }
 
-        public Card()
+        public CardControl()
         {
             InitializeComponent();
         }

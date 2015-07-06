@@ -1,6 +1,7 @@
 ﻿using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,11 @@ namespace KanbanBoardApplication.Model
         public int Index { get; set; }
         public Brush Color { get; set; }
         public Author Owner { get; set; }
-        public IList<Comment> Comments { get; set; }
+        public ObservableCollection<Comment> Comments { get; set; }
 
         public Card()
         {
-            this.Comments = new List<Comment>();
+            this.Comments = new ObservableCollection<Comment>();
         }
 
         public System.Xml.Linq.XElement ToXml()

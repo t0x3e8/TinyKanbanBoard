@@ -1,6 +1,7 @@
 ﻿using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,11 @@ namespace KanbanBoardApplication.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Created { get; set; }
-        public IList<Column> Columns { get; set; }
+        public ObservableCollection<Column> Columns { get; set; }
 
         public Board()
         {
-            this.Columns = new List<Column>();
+            this.Columns = new ObservableCollection<Column>();
         }
 
         public System.Xml.Linq.XElement ToXml()

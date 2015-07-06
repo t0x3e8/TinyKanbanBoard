@@ -86,19 +86,32 @@
     <Compile Include="Model\Column.cs" />
     <Compile Include="Model\Comment.cs" />
     <Compile Include="Model\Database\DatabaseContext.cs" />
+    <Compile Include="Model\TestBoard.cs" />
     <Compile Include="Services\ICardsBoard.cs" />
+    <Compile Include="Services\IViewChanger.cs" />
     <Compile Include="Services\IXmlService.cs" />
     <Compile Include="Services\MouseHelper.cs" />
+    <Compile Include="Services\ViewsLocator.cs" />
     <Compile Include="Services\WatermarkAdorner.cs" />
     <Compile Include="Services\WatermarkService.cs" />
-    <Compile Include="UsersControls\Card.xaml.cs">
-      <DependentUpon>Card.xaml</DependentUpon>
+    <Compile Include="Views\BoardView.xaml.cs">
+      <DependentUpon>BoardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UsersControls\ColumnBoard.xaml.cs">
+    <Compile Include="Views\CardControl.xaml.cs">
+      <DependentUpon>CardControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColumnBoard.xaml.cs">
       <DependentUpon>ColumnBoard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UsersControls\DropAdorner.cs" />
-    <Page Include="UsersControls\MainWindow.xaml">
+    <Compile Include="Views\DropAdorner.cs" />
+    <Compile Include="Views\StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -106,15 +119,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UsersControls\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UsersControls\Card.xaml">
+    <Page Include="Views\CardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UsersControls\ColumnBoard.xaml">
+    <Page Include="Views\ColumnBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

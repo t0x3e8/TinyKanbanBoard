@@ -1,4 +1,5 @@
 ﻿using KanbanBoardApplication.Model;
+using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,22 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
-namespace KanbanBoardApplication.UsersControls
+namespace KanbanBoardApplication
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IViewChanger
     {
         public MainWindow()
         {
             InitializeComponent();
+            this.ChangeView(ViewsLocator.StartView);
+        }
+
+        public void ChangeView(UserControl view)
+        {
+            this.ContentArea.Content = view;
         }
     }
 }

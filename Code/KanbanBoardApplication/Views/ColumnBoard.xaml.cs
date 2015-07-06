@@ -1,6 +1,8 @@
-﻿using KanbanBoardApplication.Services;
+﻿using KanbanBoardApplication.Model;
+using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,23 +17,47 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace KanbanBoardApplication.UsersControls
+namespace KanbanBoardApplication.Views
 {
     /// <summary>
     /// Interaction logic for ColumnBoard.xaml
     /// </summary>
-    public partial class ColumnBoard : ItemsControl, ICardsBoard
+    public partial class ColumnBoard : ItemsControl, ICardsBoard, INotifyPropertyChanged
     {
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(ColumnBoard));
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string Header {
             get { return (string)this.GetValue(HeaderProperty); }
             set { this.SetValue(HeaderProperty, value); }
         }
 
+        private string newCardText = null;
+        public string NewCardText
+        {
+            get { return this.newCardText; }
+            set
+            {
+                if (this.newCardText != value)
+                {
+                    this.newCardText = value;
+                    this.NotifyPropertyChanged("NewCardText");
+                }
+            }
+        }
+
         public ColumnBoard()
         {
             InitializeComponent();
+        }
+
+        private void NewCardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(this.NewCardText))
+            {
+                (this.ItemsSource as IList<Card>).Add(new Card() { Text = this.NewCardText });
+                this.NewCardText = null;
+            }
         }
 
         //private void Board_DragOver(object sender, DragEventArgs e)
@@ -132,5 +158,12 @@ namespace KanbanBoardApplication.UsersControls
         //{
         //    this.Background = Brushes.White;
         //}
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }
