@@ -9,7 +9,7 @@ namespace KanbanBoardApplication.Model.Database
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<BoardDbSet> Boards { get; set; }
+        public DbSet<BoardEntity> Boards { get; set; }
 
         public DatabaseContext() : base("BoardsDBConnectionString")
         {

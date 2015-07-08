@@ -1,5 +1,6 @@
 ﻿using KanbanBoardApplication.Model;
 using KanbanBoardApplication.Model.Database;
+using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +28,7 @@ namespace KanbanBoardApplication.Views
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Board board;
+        private BoardEntity boardEntity;
         private string newColumnHeader;
 
         public Board Board
@@ -57,10 +59,16 @@ namespace KanbanBoardApplication.Views
         public BoardView()
         {
             InitializeComponent();
+        }
 
-            this.board = TestBoard.GetBoard();
+        public void Initialize(BoardEntity boardEntity)
+        {
+            this.boardEntity = boardEntity;
+            this.board = new Board() { Name = this.boardEntity.Name, Id = this.boardEntity.Id, Created = this.boardEntity.Created };
+            if (!string.IsNullOrEmpty(this.boardEntity.XmlString))
+                this.board.InitializeFromXML(this.boardEntity.Xml);
 
-            this.DataContext = this;
+            this.DataContext = this.board;
         }
 
         private void NotifyPropertyChanged(string propertyName)
@@ -78,5 +86,22 @@ namespace KanbanBoardApplication.Views
             }
         }
 
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.board.IsDirty)
+            {
+                DatabaseContext db = new DatabaseContext();
+                this.boardEntity.Xml = this.board.ToXml();
+                db.SaveChanges();
+
+                this.board.IsDirty = false;
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = Window.GetWindow(this);
+            (window as IViewChanger).ChangeView(ViewsLocator.StartView);
+        }
     }
 }

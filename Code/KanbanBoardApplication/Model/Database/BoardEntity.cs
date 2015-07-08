@@ -8,9 +8,9 @@ using System.Xml.Linq;
 
 namespace KanbanBoardApplication.Model.Database
 {
-    public class BoardDbSet
+    public class BoardEntity
     {
-        public int BoardId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Created { get; set; }
         [Column(TypeName="xml")]

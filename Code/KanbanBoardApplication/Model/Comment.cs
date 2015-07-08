@@ -8,11 +8,63 @@ using System.Xml.Linq;
 
 namespace KanbanBoardApplication.Model
 {
-    public class Comment :IXmlService
+    public class Comment : IXmlService
     {
-        public DateTime Created { get; set; }
-        public string Text { get; set; }
-        public Author Owner { get; set; }
+        private DateTime created;
+        private string text;
+        private Author owner;
+        private bool isDirty;
+
+        public DateTime Created
+        {
+            get { return this.created; }
+            set
+            {
+                if (this.created != value)
+                {
+                    this.created = value;
+                    this.isDirty = true;
+                }
+            }
+        }
+
+        public string Text
+        {
+            get { return this.text; }
+            set
+            {
+                if (this.text != value)
+                {
+                    this.text = value;
+                    this.isDirty = true;
+                }
+            }
+        }
+
+        public Author Owner
+        {
+            get { return this.owner; }
+            set
+            {
+                if (this.owner != value)
+                {
+                    this.owner = value;
+                    this.isDirty = true;
+                }
+            }
+        }
+
+        public bool IsDirty
+        {
+            get {
+
+                /// if the object is not dirty, we need to check whether other object aren't dirty too
+                if (!this.isDirty && this.owner != null)
+                    this.isDirty = this.owner.IsDirty;
+
+                return this.isDirty;
+            }
+        }
 
         public Comment()
         {
@@ -26,7 +78,7 @@ namespace KanbanBoardApplication.Model
             commentXML.Add(new XAttribute("created", this.Created));
             commentXML.Add(new XAttribute("text", this.Text));
             commentXML.Add(new XAttribute("owner", this.Owner.Id));
-            
+
             return commentXML;
         }
 
@@ -35,6 +87,7 @@ namespace KanbanBoardApplication.Model
             this.Created = DateTime.Parse(xml.Attribute("created").Value);
             this.Text = xml.Attribute("text").Value;
             //// TOOD: missing owner
+            this.isDirty = true;
         }
     }
 }

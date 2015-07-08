@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:myServices="clr-namespace:KanbanBoardApplication.Services"
+             xmlns:dummy="clr-namespace:KanbanBoardApplication.Views.DummyDataContext"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="600">
     <Grid>
@@ -30,9 +31,16 @@
             </Border>
 
             <StackPanel Grid.Column="1">
-                <Grid>
+                <StackPanel>
                     <TextBlock Background="White" Text="or open existing Board" Height="30" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 45  0 0" />
-                </Grid>
+                    <ItemsControl ItemsSource="{Binding BoardsSet}" d:DataContext="{d:DesignInstance dummy:DummyDataForStartView, IsDesignTimeCreatable=True}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Name}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

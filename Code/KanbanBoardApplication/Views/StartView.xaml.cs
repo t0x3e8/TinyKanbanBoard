@@ -1,6 +1,8 @@
-﻿using KanbanBoardApplication.Services;
+﻿using KanbanBoardApplication.Model.Database;
+using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +23,32 @@ namespace KanbanBoardApplication.Views
     /// </summary>
     public partial class StartView : UserControl
     {
+        public ObservableCollection<BoardEntity> BoardsSet
+        {
+            get;
+            private set;
+        }
+
         public StartView()
         {
             InitializeComponent();
+            this.DataContext = this;
+
+            DatabaseContext db = new DatabaseContext();
+            this.BoardsSet = new ObservableCollection<BoardEntity>(db.Boards);
         }
 
         private void CreateNewBoard_Click(object sender, RoutedEventArgs e)
         {
+            BoardEntity boardEntity = new BoardEntity() { Created = DateTime.Now, Name = "noName" };
+            DatabaseContext db = new DatabaseContext();
+            boardEntity = db.Boards.Add(boardEntity);
+            db.SaveChanges();
+
             Window window = Window.GetWindow(this);
-            (window as IViewChanger).ChangeView(ViewsLocator.BoardView);
+            var boardView = ViewsLocator.BoardView;
+            (boardView as BoardView).Initialize(boardEntity);
+            (window as IViewChanger).ChangeView(boardView);
         }
     }
 }

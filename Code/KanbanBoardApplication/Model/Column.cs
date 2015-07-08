@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,72 @@ namespace KanbanBoardApplication.Model
 {
     public class Column : IXmlService
     {
-        public string Header { get; set; }
-        public int Index { get; set; }
-        public ObservableCollection<Card> Cards { get; set; }
+        private string header;
+        private int index;
+        private ObservableCollection<Card> cards;
+        private bool isDirty;
+
+        public string Header
+        {
+            get { return this.header; }
+            set
+            {
+                if (this.header != value)
+                {
+                    this.header = value;
+                    this.isDirty = true;
+                }
+            }
+        }
+
+        public int Index
+        {
+            get { return this.index; }
+            set
+            {
+                if (this.index != value)
+                {
+                    this.index = value;
+                    this.isDirty = true;
+                }
+            }
+        }
+
+        public ObservableCollection<Card> Cards
+        {
+            get { return this.cards; }
+        }
+
+        public bool IsDirty
+        {
+            get
+            {
+                if (!this.isDirty)
+                {
+                    foreach (var card in cards)
+                    {
+                        if (card.IsDirty)
+                        {
+                            this.isDirty = true;
+                            break;
+                        }
+                    }
+                }
+
+                return this.isDirty;
+            }
+            set { this.isDirty = value; }
+        }
 
         public Column()
         {
-            this.Cards = new ObservableCollection<Card>();
+            this.cards = new ObservableCollection<Card>();
+            this.cards.CollectionChanged += cards_CollectionChanged;
+        }
+
+        private void cards_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.isDirty = true;
         }
 
         public System.Xml.Linq.XElement ToXml()
@@ -47,6 +107,8 @@ namespace KanbanBoardApplication.Model
                 card.InitializeFromXML(cardXml);
                 this.Cards.Add(card);
             }
+
+            this.isDirty = true;
         }
     }
 }
