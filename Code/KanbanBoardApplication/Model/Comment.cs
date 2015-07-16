@@ -13,7 +13,6 @@ namespace KanbanBoardApplication.Model
         private DateTime created;
         private string text;
         private Author owner;
-        private bool isDirty;
 
         public DateTime Created
         {
@@ -23,7 +22,6 @@ namespace KanbanBoardApplication.Model
                 if (this.created != value)
                 {
                     this.created = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -36,7 +34,6 @@ namespace KanbanBoardApplication.Model
                 if (this.text != value)
                 {
                     this.text = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -49,20 +46,7 @@ namespace KanbanBoardApplication.Model
                 if (this.owner != value)
                 {
                     this.owner = value;
-                    this.isDirty = true;
                 }
-            }
-        }
-
-        public bool IsDirty
-        {
-            get {
-
-                /// if the object is not dirty, we need to check whether other object aren't dirty too
-                if (!this.isDirty && this.owner != null)
-                    this.isDirty = this.owner.IsDirty;
-
-                return this.isDirty;
             }
         }
 
@@ -87,7 +71,6 @@ namespace KanbanBoardApplication.Model
             this.Created = DateTime.Parse(xml.Attribute("created").Value);
             this.Text = xml.Attribute("text").Value;
             //// TOOD: missing owner
-            this.isDirty = true;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +11,12 @@ using System.Xml.Linq;
 
 namespace KanbanBoardApplication.Model
 {
-    public class Board : IXmlService
+    public class Board : IXmlService, INotifyPropertyChanged
     {
         private int id;
         private string name;
         private DateTime created;
         private ObservableCollection<Column> columns;
-        private bool isDirty;
 
         public int Id
         {
@@ -26,7 +26,6 @@ namespace KanbanBoardApplication.Model
                 if (this.id != value)
                 {
                     this.id = value;
-                    this.IsDirty = true;
                 }
             }
         }
@@ -39,7 +38,6 @@ namespace KanbanBoardApplication.Model
                 if (this.name != value)
                 {
                     this.name = value;
-                    this.IsDirty = false;
                 }
             }
         }
@@ -52,7 +50,6 @@ namespace KanbanBoardApplication.Model
                 if (this.created != value)
                 {
                     this.created = value;
-                    this.IsDirty = false;
                 }
             }
         }
@@ -62,36 +59,12 @@ namespace KanbanBoardApplication.Model
             get { return this.columns; }
         }
 
-        public bool IsDirty
-        {
-            get
-            {
-                if (!this.isDirty)
-                {
-                    foreach (var column in this.columns)
-                    {
-                        if (column.IsDirty)
-                        {
-                            this.isDirty = true;
-                            break;
-                        }
-                    }
-                }
-                return this.isDirty;
-            }
-            set { this.isDirty = value; }
-        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Board()
         {
             this.columns = new ObservableCollection<Column>();
-            this.columns.CollectionChanged += columns_CollectionChanged;
-            this.IsDirty = false;
-        }
-
-        private void columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            this.IsDirty = true;
         }
 
         public System.Xml.Linq.XElement ToXml()
@@ -123,6 +96,13 @@ namespace KanbanBoardApplication.Model
                 column.InitializeFromXML(columnXml);
                 this.Columns.Add(column);
             }
+
+        }
+
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

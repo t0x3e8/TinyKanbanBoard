@@ -40,7 +40,7 @@ namespace KanbanBoardApplication.Views
 
         private void CreateNewBoard_Click(object sender, RoutedEventArgs e)
         {
-            BoardEntity boardEntity = new BoardEntity() { Created = DateTime.Now, Name = "noName" };
+            BoardEntity boardEntity = new BoardEntity() { Created = DateTime.Now, Name = "Board without name" };
             DatabaseContext db = new DatabaseContext();
             boardEntity = db.Boards.Add(boardEntity);
             db.SaveChanges();
@@ -49,6 +49,23 @@ namespace KanbanBoardApplication.Views
             var boardView = ViewsLocator.BoardView;
             (boardView as BoardView).Initialize(boardEntity);
             (window as IViewChanger).ChangeView(boardView);
+        }
+
+        private void BoardOpen_Click(object sender, RoutedEventArgs e)
+        {
+            int boardEntityId = (int)(sender as Button).Tag;
+
+            DatabaseContext db = new DatabaseContext();
+            BoardEntity boardEntity = db.Boards.SingleOrDefault(s => s.Id == boardEntityId);
+
+            if (boardEntity != null)
+            {
+                Window window = Window.GetWindow(this);
+                var boardView = ViewsLocator.BoardView;
+                (boardView as BoardView).Initialize(boardEntity);
+                (window as IViewChanger).ChangeView(boardView);
+            }
+
         }
     }
 }

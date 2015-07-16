@@ -88,14 +88,11 @@ namespace KanbanBoardApplication.Views
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.board.IsDirty)
-            {
-                DatabaseContext db = new DatabaseContext();
-                this.boardEntity.Xml = this.board.ToXml();
-                db.SaveChanges();
+            DatabaseContext db = new DatabaseContext();
 
-                this.board.IsDirty = false;
-            }
+            this.boardEntity.Xml = this.board.ToXml();
+            db.Entry<BoardEntity>(this.boardEntity).State = System.Data.Entity.EntityState.Modified;
+            int result = db.SaveChanges();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

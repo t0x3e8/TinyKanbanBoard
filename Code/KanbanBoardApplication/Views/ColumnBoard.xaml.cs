@@ -1,4 +1,5 @@
 ﻿using KanbanBoardApplication.Model;
+using KanbanBoardApplication.Model.Database;
 using KanbanBoardApplication.Services;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,13 @@ namespace KanbanBoardApplication.Views
     {
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(ColumnBoard));
         public event PropertyChangedEventHandler PropertyChanged;
+        private string newCardText = null;
 
         public string Header {
             get { return (string)this.GetValue(HeaderProperty); }
             set { this.SetValue(HeaderProperty, value); }
         }
 
-        private string newCardText = null;
         public string NewCardText
         {
             get { return this.newCardText; }
@@ -49,6 +50,8 @@ namespace KanbanBoardApplication.Views
         public ColumnBoard()
         {
             InitializeComponent();
+            this.DragOver += this.Board_DragOver;
+            this.Drop += this.Board_Drop;
         }
 
         private void NewCardButton_Click(object sender, RoutedEventArgs e)
@@ -60,46 +63,45 @@ namespace KanbanBoardApplication.Views
             }
         }
 
-        //private void Board_DragOver(object sender, DragEventArgs e)
-        //{
-        //    if (e.Data.GetDataPresent("Object"))
-        //    {
-        //        e.Effects = DragDropEffects.Move;
-        //    }
-        //}
+        private void Board_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("Object"))
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+        }
 
-        //private void Board_Drop(object sender, DragEventArgs e)
-        //{
-        //    if (e.Handled == false)
-        //    {
-        //        Panel targetPanel = (Panel)sender;
-        //        UIElement sourceElement = (UIElement)e.Data.GetData("Object");
+        private void Board_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Handled == false)
+            {
+                Column targetColumn = (Column)this.DataContext;
+                Card draggedCard = (Card)e.Data.GetData("Object");
+                
 
-        //        if (targetPanel != null && sourceElement != null)
-        //        {
-        //            // Get the panel that the element currently belongs to, 
-        //            // then remove it from that panel and add it the Children of 
-        //            // the panel that its been dropped on.
-        //            Panel sourceElementParent = (Panel)VisualTreeHelper.GetParent(sourceElement);
+                //ItemsControl targetControl = (ItemsControl)sender;
+                //UIElement sourceElement = (UIElement)e.Data.GetData("Object");
 
-        //            if (sourceElementParent == this)
-        //            {
-
-        //            }
-        //            else if (sourceElementParent != null)
-        //            {
-        //                if (e.AllowedEffects.HasFlag(DragDropEffects.Move))
-        //                {
-        //                    sourceElementParent.Children.Remove(sourceElement);
-        //                    targetPanel.Children.Add(sourceElement);
-        //                    // set the value to return to the DoDragDrop call
-        //                    e.Effects = DragDropEffects.Move;
-        //                    targetPanel.Background = Brushes.White;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+                //if (targetControl != null && sourceElement != null)
+                //{
+                //    // Get the panel that the element currently belongs to, 
+                //    // then remove it from that panel and add it the Children of 
+                //    // the panel that its been dropped on.
+                //    ItemsControl sourceElementContainer = (ItemsControl)(sourceElement as CardControl).Parent;
+                    
+                //    if (sourceElementContainer != null)
+                //    {
+                //        if (e.AllowedEffects.HasFlag(DragDropEffects.Move))
+                //        {
+                //            sourceElementContainer.Items.Remove(sourceElement);
+                //            targetControl.Items.Add(sourceElement);
+                //            // set the value to return to the DoDragDrop call
+                //            e.Effects = DragDropEffects.Move;
+                //        }
+                //    }
+                //}
+            }
+        }
 
         //private void Board_DragLeave(object sender, DragEventArgs e)
         //{

@@ -13,7 +13,6 @@ namespace KanbanBoardApplication.Model
         private string name;
         private Image picture;
         private DateTime created;
-        private bool isDirty;
 
         public Guid Id
         {
@@ -23,7 +22,6 @@ namespace KanbanBoardApplication.Model
                 if (this.id != value)
                 {
                     this.id = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -36,7 +34,6 @@ namespace KanbanBoardApplication.Model
                 if (this.name != value)
                 {
                     this.name = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -49,7 +46,6 @@ namespace KanbanBoardApplication.Model
                 if (this.picture != value)
                 {
                     this.picture = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -62,15 +58,8 @@ namespace KanbanBoardApplication.Model
                 if (this.created != value)
                 {
                     this.created = value;
-                    this.isDirty = true;
                 }
             }
-        }
-
-        public bool IsDirty
-        {
-            get { return this.isDirty; }
-            set { this.isDirty = value; }
         }
     }
 }

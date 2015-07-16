@@ -17,7 +17,6 @@ namespace KanbanBoardApplication.Model
         private Brush color;
         private Author owner;
         private ObservableCollection<Comment> comments;
-        private bool isDirty;
 
         public string Text
         {
@@ -27,7 +26,6 @@ namespace KanbanBoardApplication.Model
                 if (this.text != value)
                 {
                     this.text = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -40,7 +38,6 @@ namespace KanbanBoardApplication.Model
                 if (this.index != value)
                 {
                     this.index = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -53,7 +50,6 @@ namespace KanbanBoardApplication.Model
                 if (this.color != value)
                 {
                     this.color = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -66,36 +62,8 @@ namespace KanbanBoardApplication.Model
                 if (this.owner != value)
                 {
                     this.owner = value;
-                    this.isDirty = true;
                 }
             }
-        }
-
-        public bool IsDirty
-        {
-            get
-            {
-                if (!this.isDirty)
-                {
-                    if (this.owner != null)
-                        this.isDirty = this.owner.IsDirty;
-
-                    if (!this.isDirty)
-                    {
-                        foreach (var comment in this.comments)
-                        {
-                            if (comment.IsDirty)
-                            {
-                                this.isDirty = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                return this.isDirty;
-            }
-            set { this.isDirty = value; }
         }
 
         public ObservableCollection<Comment> Comments
@@ -106,9 +74,6 @@ namespace KanbanBoardApplication.Model
         public Card()
         {
             this.comments = new ObservableCollection<Comment>();
-            this.comments.CollectionChanged += (s, e) => { this.isDirty = true; };
-
-            this.isDirty = false;
         }
 
         public System.Xml.Linq.XElement ToXml()
@@ -143,8 +108,6 @@ namespace KanbanBoardApplication.Model
                 comment.InitializeFromXML(commentXML);
                 this.Comments.Add(comment);
             }
-
-            this.isDirty = true;
         }
     }
 }

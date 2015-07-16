@@ -23,7 +23,7 @@ namespace KanbanBoardApplication.Views
     /// </summary>
     public partial class CardControl : UserControl
     {
-        //private DropAdorner adorner;
+        private DropAdorner adorner;
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(CardControl));
 
@@ -40,39 +40,40 @@ namespace KanbanBoardApplication.Views
             InitializeComponent();
         }
 
-        //protected override void OnMouseMove(MouseEventArgs e)
-        //{
-        //    base.OnMouseMove(e);
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
 
-        //    if (!(e.OriginalSource is TextBox) && e.LeftButton == MouseButtonState.Pressed)
-        //    {
-        //        this.adorner = new DropAdorner(this, e.GetPosition(this));
-        //        AdornerLayer.GetAdornerLayer(this).Add(this.adorner);
-        //        this.Visibility = System.Windows.Visibility.Hidden;
+            if (!(e.OriginalSource is TextBox) && e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.adorner = new DropAdorner(this, e.GetPosition(this));
+                AdornerLayer.GetAdornerLayer(this).Add(this.adorner);
+                this.Visibility = System.Windows.Visibility.Hidden;
 
-        //        DataObject data = new DataObject();
-        //        data.SetData("Object", this);
+                DataObject data = new DataObject();
+                data.SetData("Card", this.DataContext);
+                data.SetData("Board", this.Parent);
 
-        //        DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
-        //        AdornerLayer.GetAdornerLayer(this).Remove(this.adorner);
-        //        this.Visibility = System.Windows.Visibility.Visible;
-        //    }
-        //}
+                DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
+                AdornerLayer.GetAdornerLayer(this).Remove(this.adorner);
+                this.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
 
-        //protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
-        //{
-        //    base.OnGiveFeedback(e);
+        protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+        {
+            base.OnGiveFeedback(e);
 
-        //    if (this.adorner != null)
-        //        this.adorner.UpdatePosition(this.PointFromScreen(MouseHelper.GetMousePosition()));
+            if (this.adorner != null)
+                this.adorner.UpdatePosition(this.PointFromScreen(MouseHelper.GetMousePosition()));
 
-        //    if (e.Effects.HasFlag(DragDropEffects.Move))
-        //        Mouse.SetCursor(Cursors.Hand);
-        //    else
-        //        Mouse.SetCursor(Cursors.Arrow);
+            if (e.Effects.HasFlag(DragDropEffects.Move))
+                Mouse.SetCursor(Cursors.Hand);
+            else
+                Mouse.SetCursor(Cursors.Arrow);
 
-        //    e.Handled = true;
-        //}
+            e.Handled = true;
+        }
 
         //protected override void OnDragEnter(DragEventArgs e)
         //{

@@ -3,26 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-            <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="#0082cd" />
-                <Setter Property="Foreground" Value="White" />
-                <Setter Property="BorderBrush" Value="#016aa8" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="1" CornerRadius="1" >
-                                <TextBlock Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}"  Foreground="White" HorizontalAlignment="Center">
+        <Style x:Key="BlueButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#0082cd" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#016aa8" />
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="1" CornerRadius="1" >
+                            <TextBlock Padding="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}"  Foreground="White" HorizontalAlignment="Center">
                                 <ContentPresenter />
-                                </TextBlock>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#76c2ee" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
+                            </TextBlock>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#76c2ee" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False" >
+                    <Setter Property="Opacity" Value="0.1" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

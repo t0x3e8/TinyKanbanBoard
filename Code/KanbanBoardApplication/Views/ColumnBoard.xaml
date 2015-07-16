@@ -8,7 +8,6 @@
              x:Name="root"
              d:DesignHeight="300" d:DesignWidth="300" AllowDrop="True"
              xmlns:myControls="clr-namespace:KanbanBoardApplication.Views">
-    <!--DragOver="Board_DragOver" DragEnter="Board_DragEnter" DragLeave="Board_DragLeave" Drop="Board_Drop" >-->
 
     <ItemsControl.Template>
         <ControlTemplate>

@@ -15,7 +15,6 @@ namespace KanbanBoardApplication.Model
         private string header;
         private int index;
         private ObservableCollection<Card> cards;
-        private bool isDirty;
 
         public string Header
         {
@@ -25,7 +24,6 @@ namespace KanbanBoardApplication.Model
                 if (this.header != value)
                 {
                     this.header = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -38,7 +36,6 @@ namespace KanbanBoardApplication.Model
                 if (this.index != value)
                 {
                     this.index = value;
-                    this.isDirty = true;
                 }
             }
         }
@@ -48,36 +45,9 @@ namespace KanbanBoardApplication.Model
             get { return this.cards; }
         }
 
-        public bool IsDirty
-        {
-            get
-            {
-                if (!this.isDirty)
-                {
-                    foreach (var card in cards)
-                    {
-                        if (card.IsDirty)
-                        {
-                            this.isDirty = true;
-                            break;
-                        }
-                    }
-                }
-
-                return this.isDirty;
-            }
-            set { this.isDirty = value; }
-        }
-
         public Column()
         {
             this.cards = new ObservableCollection<Card>();
-            this.cards.CollectionChanged += cards_CollectionChanged;
-        }
-
-        private void cards_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            this.isDirty = true;
         }
 
         public System.Xml.Linq.XElement ToXml()
@@ -107,8 +77,6 @@ namespace KanbanBoardApplication.Model
                 card.InitializeFromXML(cardXml);
                 this.Cards.Add(card);
             }
-
-            this.isDirty = true;
         }
     }
 }

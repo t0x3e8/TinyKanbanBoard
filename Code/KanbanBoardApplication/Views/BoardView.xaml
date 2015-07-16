@@ -6,7 +6,7 @@
              xmlns:myServices="clr-namespace:KanbanBoardApplication.Services"
              mc:Ignorable="d"
              xmlns:myControls="clr-namespace:KanbanBoardApplication.Views"
-             x:Name="root">
+             x:Name="root" AllowDrop="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50px" />
@@ -22,7 +22,7 @@
                 <Label Grid.Column="0" Margin="10 9" Foreground="#262626" FontSize="16" VerticalAlignment="Center" Content="{Binding Name}" HorizontalAlignment="Left"/>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button FontSize="12" Margin="5 5" Padding="20, 10" Style="{StaticResource BlueButtonStyle}" Click="SaveButton_Click">Save</Button>
+                    <Button FontSize="12" Margin="5 5" Padding="20, 10" Style="{StaticResource BlueButtonStyle}" Click="SaveButton_Click" Content="Save"></Button>
                     <Button FontSize="12" Margin="5 5" Padding="20, 10" Style="{StaticResource BlueButtonStyle}" Click="CloseButton_Click">Close</Button>
                 </StackPanel>
             </Grid>

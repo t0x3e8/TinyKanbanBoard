@@ -13,8 +13,8 @@ namespace KanbanBoardApplication.Model.Database
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Created { get; set; }
-        [Column(TypeName="xml")]
         public string XmlString { get; set; }
+
         [NotMapped]
         public XElement Xml
         {
@@ -27,5 +27,11 @@ namespace KanbanBoardApplication.Model.Database
                 this.XmlString = value.ToString();
             }
         }
+
+        [NotMapped]
+        public bool IsChecked { get; set; }
+
+        [NotMapped]
+        public string NameWithCreatedText { get { return string.Format("{0}      {1:d} at {1:t}", this.Name, this.Created); } }
     }
 }
