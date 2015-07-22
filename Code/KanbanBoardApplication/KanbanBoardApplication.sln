@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanBoardApplication", "K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectUnitTests", "..\ProjectUnitTests\ProjectUnitTests.csproj", "{F8C3F437-8DCF-48F8-BD90-D231B161852C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanbanApplicationMVVM", "..\KanbanApplicationMVVM\KanbanApplicationMVVM.csproj", "{C58D7B5D-6888-40C0-BF1C-B808D2071D74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F8C3F437-8DCF-48F8-BD90-D231B161852C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8C3F437-8DCF-48F8-BD90-D231B161852C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8C3F437-8DCF-48F8-BD90-D231B161852C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C58D7B5D-6888-40C0-BF1C-B808D2071D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C58D7B5D-6888-40C0-BF1C-B808D2071D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C58D7B5D-6888-40C0-BF1C-B808D2071D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C58D7B5D-6888-40C0-BF1C-B808D2071D74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

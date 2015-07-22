@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="KanbanApplicationMVVM.View.BoardColumnView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:v="clr-namespace:KanbanApplicationMVVM.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <ItemsControl ItemsSource="{Binding BoardCards}">
+        <ItemsControl.Template>
+            <ControlTemplate>
+                <StackPanel Background="#e3e3e3" >
+                    <TextBlock Margin="3 8 3 3" Foreground="#262626" FontSize="16" Text="{Binding Column.Header}"/>
+                    <ItemsPresenter></ItemsPresenter>
+                    <StackPanel>
+                        <TextBlock Text="Add a card" FontSize="16" Margin="3 20 3 3" />
+                        <TextBox Text="{Binding NewCardTitle}" FontSize="16" Margin="3 3 3 3" Foreground="#262626" TextWrapping="WrapWithOverflow" VerticalContentAlignment="Center" Height="40" />
+                        <Button FontSize="16" Margin="3 3 3 8" Padding="20 10" Style="{StaticResource BlueButtonStyle}" Command="{Binding AddCardCommand}">Add card</Button>
+                    </StackPanel>
+                </StackPanel>
+            </ControlTemplate>
+        </ItemsControl.Template>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <v:BoardItemView Margin="5 1" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

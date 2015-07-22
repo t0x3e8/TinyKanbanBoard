@@ -1,5 +1,8 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.CommandWpf;
+using KanbanApplicationMVVM.Model;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +16,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KanbanApplicationMVVM
+namespace KanbanApplicationMVVM.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for BoardColumn.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class BoardColumnView : UserControl
     {
-        public MainWindow()
+        public BoardColumnView()
         {
             InitializeComponent();
+            
         }
     }
 }
