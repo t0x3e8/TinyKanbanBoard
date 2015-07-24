@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using KanbanApplicationMVVM.Model;
+using KanbanApplicationMVVM.Model.Messenger;
 using KanbanApplicationMVVM.Service;
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace KanbanApplicationMVVM.ViewModel
 {
-    public class BoardColumnViewModel : ViewModelBase
+    public class BoardColumnViewModel : ViewModelBase, IDisposable
     {
         #region fields
         private string newCardTitle;
         private IApplicationContext appContext;
-        private Column column;
+        private IColumnRepository columnRepository;
         private ObservableCollection<BoardItemViewModel> boardCards= new ObservableCollection<BoardItemViewModel>();
         #endregion
 
@@ -37,21 +39,9 @@ namespace KanbanApplicationMVVM.ViewModel
 
         public Column Column
         {
-            get { return this.column; }
-            set
-            {
-                if (this.column == value)
-                    return;
-
-                if (this.column != null)
-                    this.column.Cards.CollectionChanged -= CardsCollectionChanged;
-                this.column = value;
-                this.column.Cards.CollectionChanged += CardsCollectionChanged;
-
-                this.RaisePropertyChanged("Column");
-            }
+            get { return this.columnRepository.Column; }
         }
-
+        
         public ObservableCollection<BoardItemViewModel> BoardCards
         {
             get { return this.boardCards; }
@@ -71,12 +61,23 @@ namespace KanbanApplicationMVVM.ViewModel
         }
         #endregion
 
-        public BoardColumnViewModel(IApplicationContext appContext)
+        public BoardColumnViewModel(IApplicationContext appContext, IColumnRepository columnRepository)
         {
             if (appContext == null)
                 throw new ArgumentException("IApplicationContext cannot be null.");
+            if (columnRepository == null)
+                throw new ArgumentException("IColumnRepository cannot be null.");
 
             this.appContext = appContext;
+            this.columnRepository = columnRepository;
+            Messenger.Default.Register<CardMessage>(this, "RemoveCardMessage", (msgData) => this.RemoveCardMessageReceived(msgData));
+
+            this.InitializeCards();
+        }
+
+        public void Dispose()
+        {
+            Messenger.Default.Unregister<CardMessage>(this);
         }
 
         #region methods
@@ -85,30 +86,25 @@ namespace KanbanApplicationMVVM.ViewModel
             if (string.IsNullOrWhiteSpace(this.NewCardTitle))
                 return; // or notify user about this?
 
-            this.Column.Cards.Add(new Card() { Text = this.NewCardTitle });
+            this.columnRepository.AddCard(new Card() { Text = this.NewCardTitle });
+            this.InitializeCards();
             this.NewCardTitle = string.Empty;
         }
 
-        private void CardsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void InitializeCards()
         {
-            switch (e.Action)
+            this.BoardCards = new ObservableCollection<BoardItemViewModel>();
+
+            foreach (var card in this.columnRepository.GetCards())
             {
-                case NotifyCollectionChangedAction.Reset:
-                    this.BoardCards = new ObservableCollection<BoardItemViewModel>();
-                    foreach (var card in e.NewItems)
-                    {
-                        this.BoardCards.Add(new BoardItemViewModel(this.appContext) { Card = card as Card});
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Add:
-                    foreach (var card in e.NewItems)
-                    {
-                        this.BoardCards.Add(new BoardItemViewModel(this.appContext) { Card = card as Card });
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    break;
+                this.BoardCards.Add(new BoardItemViewModel(this.appContext) { Card = card });
             }
+        }
+
+        private void RemoveCardMessageReceived(CardMessage msgData)
+        {
+            this.columnRepository.RemoveCard(msgData.Card);
+            this.InitializeCards();
         }
         #endregion
     }

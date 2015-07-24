@@ -52,6 +52,11 @@ namespace KanbanApplicationMVVM.Model
             this.cards = new ObservableCollection<Card>();
         }
 
+        public Column(XElement xml)
+        {
+            this.InitializeFromXML(xml);
+        }
+
         public System.Xml.Linq.XElement ToXml()
         {
             XElement columnXML = new XElement("column");
@@ -67,16 +72,15 @@ namespace KanbanApplicationMVVM.Model
             return columnXML;
         }
 
-        public void InitializeFromXML(XElement xml)
+        protected void InitializeFromXML(XElement xml)
         {
             this.Header = xml.Attribute("header").Value;
             this.Index = int.Parse(xml.Attribute("index").Value);
-            this.Cards.Clear();
 
+            this.cards = new ObservableCollection<Card>();
             foreach (XElement cardXml in xml.Descendants("card"))
             {
-                Card card = new Card();
-                card.InitializeFromXML(cardXml);
+                Card card = new Card(cardXml);
                 this.Cards.Add(card);
             }
         }

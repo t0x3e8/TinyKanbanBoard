@@ -33,6 +33,11 @@ namespace KanbanApplicationMVVM.ViewModel
             }
         }
 
+        public RelayCommand RemoveCardCommand
+        {
+            get { return new RelayCommand(() => this.RemoveCardExecuteCommand()); }
+        }
+
         public RelayCommand EditCardCommand
         {
             get { return new RelayCommand(() => this.EditCardExecuteCommand()); }
@@ -50,10 +55,16 @@ namespace KanbanApplicationMVVM.ViewModel
         #region methods
         private void EditCardExecuteCommand()
         {
-            var message = new EditCardMessage() { SelectedCard = this.Card};
-            message.ParentColumn = this.appContext.ActiveBoard.FindColumn(this.Card);
-            Messenger.Default.Send<EditCardMessage>(message);
+            var message = new CardMessage() { Card = this.Card };
+            message.ParentColumn = this.appContext.BoardRepository.FindColumn(this.Card);
+            Messenger.Default.Send<CardMessage>(message, "EditCardMessage");
         }
+
+        private void RemoveCardExecuteCommand()
+        {
+            Messenger.Default.Send<CardMessage>(new CardMessage() { Card = this.card }, "RemoveCardMessage");
+        }
+
         #endregion
     }
 }

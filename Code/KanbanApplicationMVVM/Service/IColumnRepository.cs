@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace KanbanApplicationMVVM.Service
 {
-    public interface IDataService
+    public interface IColumnRepository
     {
-        IList<Project> GetProjects();
+        void AddCard(Card card);
+        IEnumerable<Card> GetCards();
+        void RemoveCard(Card card);
+        Column Column { get; }
     }
 }

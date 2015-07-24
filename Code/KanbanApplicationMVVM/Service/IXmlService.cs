@@ -10,6 +10,5 @@ namespace KanbanApplicationMVVM.Service
     public interface IXmlService
     {
         XElement ToXml();
-        void InitializeFromXML(XElement xml);
     }
 }

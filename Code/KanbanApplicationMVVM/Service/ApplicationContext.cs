@@ -11,20 +11,34 @@ namespace KanbanApplicationMVVM.Service
 {
     public class ApplicationContext : ObservableObject, IApplicationContext
     {
-        private Board activeBoard;
+        private Project activeProject;
+        private IBoardRepository boardRepository;
         private ViewModelBase activeViewModel;
         private ViewModelLocator viewModelLocator;
 
-        public Board ActiveBoard
+        public IBoardRepository BoardRepository
         {
-            get { return this.activeBoard; }
+            get { return this.boardRepository; }
             set
             {
-                if (this.activeBoard == value)
+                if (this.boardRepository == value)
                     return;
 
-                this.activeBoard = value;
-                this.RaisePropertyChanged("ActiveBoard");
+                this.boardRepository = value;
+                this.RaisePropertyChanged("BoardRepository");
+            }
+        }
+
+        public Project ActiveProject
+        {
+            get { return this.activeProject; }
+            set
+            {
+                if (this.activeProject == value)
+                    return;
+
+                this.activeProject = value;
+                this.RaisePropertyChanged("ActiveProject");
             }
         }
 
@@ -46,12 +60,16 @@ namespace KanbanApplicationMVVM.Service
             get { return this.viewModelLocator; }
         }
 
-        public ApplicationContext(ViewModelLocator vmLocator)
+        public ApplicationContext(ViewModelLocator vmLocator, IBoardRepository boardRepository)
         {
             if (vmLocator == null)
                 throw new ArgumentException("ViewModelLocator cannot be null.");
 
+            if (boardRepository == null)
+                throw new ArgumentException("IBoardRepository cannot be null.");
+
             this.viewModelLocator = vmLocator;
+            this.BoardRepository = boardRepository;
         }
     }
 }

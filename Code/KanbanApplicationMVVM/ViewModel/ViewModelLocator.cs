@@ -26,6 +26,8 @@ namespace KanbanApplicationMVVM.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        private BoardViewModel boardViewModel;
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -41,12 +43,12 @@ namespace KanbanApplicationMVVM.ViewModel
             else
             {
                 SimpleIoc.Default.Register<DatabaseContext>();
+                SimpleIoc.Default.Register<IBoardRepository, BoardRepository>();
                 SimpleIoc.Default.Register<IApplicationContext, ApplicationContext>();
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<IProjectsRepository, ProjectsRepository>();
                 SimpleIoc.Default.Register<ViewModelLocator>(() => this);
                 SimpleIoc.Default.Register<StartViewModel>();
-                SimpleIoc.Default.Register<BoardViewModel>();
-                SimpleIoc.Default.Register<BoardColumnViewModel>();
+                //SimpleIoc.Default.Register<BoardViewModel>();
 
                  this.ApplicationContext.ActiveViewModel = this.StartViewModel;
             }
@@ -59,7 +61,8 @@ namespace KanbanApplicationMVVM.ViewModel
 
         public BoardViewModel BoardViewModel
         {
-            get { return ServiceLocator.Current.GetInstance<BoardViewModel>(); }
+            get { return this.boardViewModel; }
+            set { this.boardViewModel = value; }
         }
 
         public BoardColumnViewModel BoardColumnViewModel

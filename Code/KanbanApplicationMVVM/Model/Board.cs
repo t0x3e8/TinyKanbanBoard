@@ -13,14 +13,14 @@ namespace KanbanApplicationMVVM.Model
     public class Board : ObservableObject, IXmlService
     {
         #region fields
-        private int id;
+        private Guid id;
         private string name;
         private DateTime created;
         private ObservableCollection<Column> columns;
         #endregion
 
         #region properties
-        public int Id
+        public Guid Id
         {
             get { return this.id; }
             set
@@ -65,16 +65,19 @@ namespace KanbanApplicationMVVM.Model
         }
         #endregion
 
+        #region constructors
         public Board()
         {
+            this.Id = Guid.NewGuid();
             this.columns = new ObservableCollection<Column>();
         }
+        #endregion
 
         #region methods
-        public System.Xml.Linq.XElement ToXml()
+        public XElement ToXml()
         {
             XElement boardXML = new XElement("board");
-            if (this.Id != 0)
+            if (this.Id != null)
                 boardXML.Add(new XAttribute("id", this.Id));
             boardXML.Add(new XAttribute("name", this.Name));
             boardXML.Add(new XAttribute("created", this.Created));
@@ -85,32 +88,6 @@ namespace KanbanApplicationMVVM.Model
             }
 
             return boardXML;
-        }
-
-        public void InitializeFromXML(XElement xml)
-        {
-            this.Id = int.Parse(xml.Attribute("id").Value);
-            this.Name = xml.Attribute("name").Value;
-            this.Created = DateTime.Parse(xml.Attribute("created").Value);
-            this.Columns.Clear();
-
-            foreach (XElement columnXml in xml.Descendants("column"))
-            {
-                Column column = new Column();
-                column.InitializeFromXML(columnXml);
-                this.Columns.Add(column);
-            }
-
-        }
-
-        public Column FindColumn(Card card)
-        {
-            var column = this.columns.FirstOrDefault<Column>((c) =>
-            {
-                return c.Cards.Contains(card);
-            });
-
-            return column;
         }
         #endregion
     }

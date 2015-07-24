@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace KanbanApplicationMVVM.Model.Messenger
 {
-    public class EditCardMessage
+    public class CardMessage
     {
-        public Card SelectedCard { get; set; }
+        public Card Card { get; set; }
         public Column ParentColumn { get; set; }
     }
 }

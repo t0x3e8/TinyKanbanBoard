@@ -28,7 +28,7 @@
                 <Label Grid.Column="0" Margin="10 9" Foreground="#262626" FontSize="16" VerticalAlignment="Center" Content="{Binding Name}" HorizontalAlignment="Left"/>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button FontSize="12" Margin="5 5" Padding="20, 10" Style="{StaticResource BlueButtonStyle}">Save</Button>
+                    <Button FontSize="12" Margin="5 5" Padding="20, 10" Style="{StaticResource BlueButtonStyle}" Command="{Binding SaveBoardCommand}">Save</Button>
                     <Button FontSize="12" Margin="5 5" Padding="20, 10" Style="{StaticResource BlueButtonStyle}" Command="{Binding CloseBoardCommand}">Close</Button>
                 </StackPanel>
             </Grid>
@@ -81,7 +81,7 @@
                         <TextBlock Text="In list:" FontSize="16" Margin="3 20 3 3" />
                         <ComboBox SelectedValue="{Binding EditCard.ParentColumn.Header}" FontSize="16" Width="200" HorizontalAlignment="Left"></ComboBox>
                         <TextBlock Text="Card text:" FontSize="16" Margin="3 20 3 3" />
-                        <TextBox Text="{Binding EditCard.SelectedCard.Text}" FontSize="16" Margin="3 0 3 8" Foreground="#262626" TextWrapping="WrapWithOverflow" VerticalContentAlignment="Center" Height="40" />
+                        <TextBox Text="{Binding EditCard.Card.Text}" FontSize="16" Margin="3 0 3 8" Foreground="#262626" TextWrapping="WrapWithOverflow" VerticalContentAlignment="Center" Height="40" />
                     </StackPanel>
                 </Grid>
             </Border>

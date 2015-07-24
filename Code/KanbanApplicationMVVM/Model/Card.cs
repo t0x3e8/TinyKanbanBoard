@@ -45,6 +45,21 @@ namespace KanbanApplicationMVVM.Model
         {
         }
 
+        public Card(XElement xml)
+        {
+            this.Text = xml.Attribute("text").Value;
+            this.Index = int.Parse(xml.Attribute("index").Value);
+            //// TODO: missing woner and brush
+            //this.Comments.Clear();
+
+            //foreach (XElement commentXML in xml.Descendants("comment"))
+            //{
+            //    Comment comment = new Comment();
+            //    comment.InitializeFromXML(commentXML);
+            //    this.Comments.Add(comment);
+            //}
+        }
+
         public System.Xml.Linq.XElement ToXml()
         {
             XElement cardXML = new XElement("card");
@@ -62,21 +77,6 @@ namespace KanbanApplicationMVVM.Model
             //}
 
             return cardXML;
-        }
-
-        public void InitializeFromXML(XElement xml)
-        {
-            this.Text = xml.Attribute("text").Value;
-            this.Index = int.Parse(xml.Attribute("index").Value);
-            //// TODO: missing woner and brush
-            //this.Comments.Clear();
-
-            //foreach (XElement commentXML in xml.Descendants("comment"))
-            //{
-            //    Comment comment = new Comment();
-            //    comment.InitializeFromXML(commentXML);
-            //    this.Comments.Add(comment);
-            //}
         }
     }
 }

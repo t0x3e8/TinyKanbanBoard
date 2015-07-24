@@ -11,7 +11,8 @@ namespace KanbanApplicationMVVM.Service
 {
     public interface IApplicationContext
     {
-        Board ActiveBoard { get; set; }
+        Project ActiveProject { get; set; }
+        IBoardRepository BoardRepository { get; set; }
         ViewModelBase ActiveViewModel { get; set; }
         ViewModelLocator ViewModelLocator { get; }
     }
