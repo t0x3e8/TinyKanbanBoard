@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using KanbanApplicationMVVM.Model;
+using KanbanApplicationMVVM.Model.Behaviors;
 using KanbanApplicationMVVM.Model.Messenger;
 using KanbanApplicationMVVM.Service;
 using System;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace KanbanApplicationMVVM.ViewModel
 {
-    public class BoardColumnViewModel : ViewModelBase, IDisposable
+    public class BoardColumnViewModel : ViewModelBase, IDisposable, ICardDropable
     {
         #region fields
         private string newCardTitle;
@@ -106,6 +107,20 @@ namespace KanbanApplicationMVVM.ViewModel
             this.columnRepository.RemoveCard(msgData.Card);
             this.InitializeCards();
         }
-        #endregion
+        #endregion        
+
+        public Type Type
+        {
+            get { return typeof(BoardItemViewModel); }
+        }
+
+        public void Drop(Card card)
+        {
+            if (card != null)
+            {
+                this.columnRepository.AddCard(card);
+                this.InitializeCards();
+            }
+        }
     }
 }

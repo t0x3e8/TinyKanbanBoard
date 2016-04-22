@@ -2,17 +2,15 @@
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using KanbanApplicationMVVM.Model;
+using KanbanApplicationMVVM.Model.Behaviors;
 using KanbanApplicationMVVM.Model.Messenger;
 using KanbanApplicationMVVM.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace KanbanApplicationMVVM.ViewModel
 {
-    public class BoardItemViewModel : ViewModelBase
+    public class BoardItemViewModel : ViewModelBase, ICardDragable
     {
         #region fields
         private IApplicationContext appContext;
@@ -66,5 +64,23 @@ namespace KanbanApplicationMVVM.ViewModel
         }
 
         #endregion
+        
+        public Card DragObject
+        {
+            get { return this.Card; }
+        }
+
+        public void RemoveDragCard(Card card)
+        {
+            if (card != null)
+            {
+                Messenger.Default.Send<CardMessage>(new CardMessage() { Card = card }, "RemoveCardMessage");
+            }
+        }
+
+        public Type Type
+        {
+            get { return typeof(BoardItemViewModel);}
+        }
     }
 }

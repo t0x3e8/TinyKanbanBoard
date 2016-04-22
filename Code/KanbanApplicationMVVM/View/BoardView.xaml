@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:v="clr-namespace:KanbanApplicationMVVM.View"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:KanbanApplicationMVVM.Model.Converters"
-             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
              mc:Ignorable="d" 
              d:DesignHeight="640" d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource Locator}, Path=BoardViewModel}">
@@ -57,7 +55,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="2" Margin="10" BorderBrush="#9f9f9f" Width="250">
+                        <Border BorderThickness="2" Margin="10" BorderBrush="#9f9f9f" Width="250" VerticalAlignment="Top" Height="Auto">
                             <v:BoardColumnView Background="#e3e3e3" />
                         </Border>
                     </DataTemplate>
@@ -70,11 +68,9 @@
             <Border BorderBrush="Black" BorderThickness="1" CornerRadius="3" Background="White" Margin="100 50" >
                 <Grid>
                     <Border BorderBrush="#666666" BorderThickness="2" CornerRadius="2" Background="#666666" Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDown">
-                                <cmd:EventToCommand Command="{Binding CloseEditCardCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding CloseEditCardCommand}"/>
+                        </Border.InputBindings>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Foreground="White" FontWeight="Bold" FontFamily="monospace">X</TextBlock>
                     </Border>
                     <StackPanel Margin="10 20 50 20">

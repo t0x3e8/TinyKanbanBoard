@@ -78,7 +78,6 @@ namespace KanbanBoardApplication.Views
                 Column targetColumn = (Column)this.DataContext;
                 Card draggedCard = (Card)e.Data.GetData("Object");
                 
-
                 //ItemsControl targetControl = (ItemsControl)sender;
                 //UIElement sourceElement = (UIElement)e.Data.GetData("Object");
 

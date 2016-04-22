@@ -85,26 +85,6 @@ namespace KanbanApplicationMVVM.ViewModel
             get { return new RelayCommand(() => this.AddNewColumnExecuteCommand()); }
         }
         #endregion
-
-        public BoardViewModel(IApplicationContext appContext, IProjectsRepository dataService)
-        {
-            if (dataService == null)
-                throw new ArgumentException("IDataService cannot be null.");
-
-            if (appContext == null)
-                throw new ArgumentException("IApplicationContext cannot be null.");
-
-            this.dataService = dataService;
-            this.appContext = appContext;
-            this.boardRepository = appContext.BoardRepository;
-            Messenger.Default.Register<CardMessage>(this, "EditCardMessage", (msgData) => this.EditCardMessageReceived(msgData));
-            this.InitializeColumns();
-        }
-        
-        public void Dispose()
-        {
-            Messenger.Default.Unregister<CardMessage>(this);
-        }
   
         #region methods
         private void InitializeColumns()
@@ -143,6 +123,26 @@ namespace KanbanApplicationMVVM.ViewModel
         private void EditCardMessageReceived(CardMessage msgData)
         {
             this.EditCard = msgData;
+        }
+
+        public BoardViewModel(IApplicationContext appContext, IProjectsRepository dataService)
+        {
+            if (dataService == null)
+                throw new ArgumentException("IDataService cannot be null.");
+
+            if (appContext == null)
+                throw new ArgumentException("IApplicationContext cannot be null.");
+
+            this.dataService = dataService;
+            this.appContext = appContext;
+            this.boardRepository = appContext.BoardRepository;
+            Messenger.Default.Register<CardMessage>(this, "EditCardMessage", (msgData) => this.EditCardMessageReceived(msgData));
+            this.InitializeColumns();
+        }
+
+        public void Dispose()
+        {
+            Messenger.Default.Unregister<CardMessage>(this);
         }
         #endregion
     }
